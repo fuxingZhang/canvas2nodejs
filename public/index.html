@@ -1,12 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>canvas2nodejs</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    main {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      background-color: #ccc;
+      overflow: hidden;
+      line-height: 1;
+      padding: 40px 30%;
+    }
+
+    #btn {
+      margin-top: 20px;
+      padding: 4px 10px;
+      font-size: 16px;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -100;
+    }
+
+    #capture {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    #img-box {
+      margin-top: 20px;
+      background-color: rgb(223, 219, 33);
+      border: 2px dashed red;
+    }
+  </style>
 </head>
+
 <body>
-  
+  <main>
+    <section id="capture">
+      <div>
+        <span>选择图片格式</span>
+        <select id="type">
+          <option value="png">png</option>
+          <option value="jpeg">jpg</option>
+          <option value="bmp">bmp</option>
+        </select>
+      </div>
+      <div>
+        <span>压缩比例（0-1）: </span>
+        <input id="radio" type="number" name="points" step="0.1" min="0.1" max="1" value="0.9" />
+      </div>
+      <button id="btn">canvas截图并上传到服务器</button>
+    </section>
+    <div id="img-box">
+      <img id="img" src="" alt="图片上传到服务器之后，服务器返回图片地址，然后将地址赋值给img标签" />
+    </div>
+  </main>
 </body>
+<script src="html2canvas.min.js"></script>
+<script>
+  window.onload = function () {
+    const btn = document.querySelector('#btn');
+    const radioDom = document.querySelector('#radio');
+    const typeDom = document.querySelector('#type');
+    const img = document.querySelector('#img');
+
+    btn.onclick = async () => {
+      const radio = radioDom.value;
+      const type = `image/${typeDom.value}`;
+      let extname = '.png';
+      if (type === 'jpeg') extname = '.jpeg';
+      if (type === 'bmp') extname = '.bmp';
+      const canvas = await html2canvas(document.querySelector("#capture"));
+      const blob = await toBlob(canvas, type, radio);
+      const body = new FormData();
+      const file = new File([blob], Date.now() + extname);
+      body.append('file', file);
+      const res = await fetch('/api/v1/file', {
+        body,
+        method: 'POST',
+      });
+      console.log(res);
+      const data = await res.json();
+      console.log(data);
+      const filename = data.filename;
+      img.src = filename;
+    };
+  };
+
+  function toBlob(canvas, type, radio) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(blob => {
+        console.log(blob)
+        resolve(blob);
+      }, type, radio); // 默认格式为image/png
+    });
+  }
+</script>
+
 </html>

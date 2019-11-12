@@ -43,6 +43,7 @@
       padding: 20px;
       border-radius: 10px;
       box-sizing: border-box;
+      line-height: 2;
     }
 
     #img-box {
@@ -59,13 +60,14 @@
       <div>
         <span>选择图片格式</span>
         <select id="type">
-          <option value="png">png</option>
           <option value="jpeg">jpg</option>
+          <option value="webp">webp</option>
+          <option value="png">png</option>
           <option value="bmp">bmp</option>
         </select>
       </div>
       <div>
-        <span>压缩比例（0-1）: </span>
+        <span>压缩比例（0-1， 只支持jpeg和webp格式）: </span>
         <input id="radio" type="number" name="points" step="0.1" min="0.1" max="1" value="0.9" />
       </div>
       <button id="btn">canvas截图并上传到服务器</button>
@@ -84,7 +86,8 @@
     const img = document.querySelector('#img');
 
     btn.onclick = async () => {
-      const radio = radioDom.value;
+      const radio = +radioDom.value;
+      console.log(radio)
       const type = typeDom.value;
       let extname = '.png';
       if (type === 'jpeg') extname = '.jpeg';

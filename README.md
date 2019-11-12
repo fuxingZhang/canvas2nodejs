@@ -2,7 +2,8 @@
 Use canvas to generate png, jpg and other format images, select the compression ratio, upload to nodejs and save to hard disk.
 
 ## run
-```js
+```bash
+cd canvas2nodejs
 node app
 ```
 

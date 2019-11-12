@@ -85,12 +85,12 @@
 
     btn.onclick = async () => {
       const radio = radioDom.value;
-      const type = `image/${typeDom.value}`;
+      const type = typeDom.value;
       let extname = '.png';
       if (type === 'jpeg') extname = '.jpeg';
       if (type === 'bmp') extname = '.bmp';
       const canvas = await html2canvas(document.querySelector("#capture"));
-      const blob = await toBlob(canvas, type, radio);
+      const blob = await toBlob(canvas, `image/${type}`, radio);
       const body = new FormData();
       const file = new File([blob], Date.now() + extname);
       body.append('file', file);

@@ -152,7 +152,8 @@
   function draw(domNode, options) {
     return toSvg(domNode, options)
       .then(util.makeImage)
-      // .then(util.delay(100))  // 这里延迟100ms不知道什么用意，注释掉也没发现什么影像
+      // Inline XML images may fail to parse, throwing an Error later on
+      .then(util.delay(100))
       .then(function (image) {
         var canvas = newCanvas(domNode);
         canvas.getContext('2d').drawImage(image, 0, 0);

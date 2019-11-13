@@ -13,6 +13,3 @@ node app
 
 2. click button, then you see the image from backend
 ![上传后](./screenshots/after.png)
-
-## to do
-* [ ] fix html2canvas bug

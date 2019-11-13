@@ -87,7 +87,6 @@
 
     btn.onclick = async () => {
       const radio = +radioDom.value;
-      console.log(radio)
       const type = typeDom.value;
       let extname = '.png';
       if (type === 'jpeg') extname = '.jpeg';
@@ -101,7 +100,6 @@
         body,
         method: 'POST',
       });
-      console.log(res);
       const data = await res.json();
       console.log(data);
       const filename = data.filename;
@@ -112,7 +110,6 @@
   function toBlob(canvas, type, radio) {
     return new Promise((resolve, reject) => {
       canvas.toBlob(blob => {
-        console.log(blob)
         resolve(blob);
       }, type, radio); // 默认格式为image/png
     });

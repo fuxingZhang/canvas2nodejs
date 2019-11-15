@@ -26,12 +26,12 @@ app.use(serve('./public'));
 app.on('error', appErrorHandler);
 
 process.on('uncaughtException', async err => {
-  await logger.error(err).catch(err => process.exit());
+  await logger.error(err);
   process.exit();
 });
 
 process.on('unhandledRejection', async (err, reason) => {
-  await logger.error(err, reason).catch(err => process.exit());
+  await logger.error(err, reason);
   process.exit();
 });
 

@@ -1,9 +1,10 @@
-# canvas2nodejs
-Use canvas to generate png, jpg and other format images, select the compression ratio, upload to nodejs and save to hard disk.
+# html to image
+Converting HTML to images using canvas
+Converting HTML to images using canvas, select image type and compression ratio, upload to nodejs and save to hard disk.
 
 ## run
 ```bash
-cd canvas2nodejs
+cd html2image
 node app
 ```
 
